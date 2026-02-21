@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Scale</title>
+    <link rel="icon" type="image/png" href="website_icon.png">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-top">
+                <h1 data-i18n="title">Image Scale</h1>
+                <div class="header-actions">
+                    <button id="langToggle" class="icon-btn" aria-label="Toggle language">EN</button>
+                    <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">
+                        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="5"></circle>
+                            <line x1="12" y1="1" x2="12" y2="3"></line>
+                            <line x1="12" y1="21" x2="12" y2="23"></line>
+                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                            <line x1="1" y1="12" x2="3" y2="12"></line>
+                            <line x1="21" y1="12" x2="23" y2="12"></line>
+                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                        </svg>
+                        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <main>
+            <section class="upload-section">
+                <label for="fileInput" class="upload-label">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="17 8 12 3 7 8"></polyline>
+                        <line x1="12" y1="3" x2="12" y2="15"></line>
+                    </svg>
+                    <span data-i18n="upload">Choisir une image</span>
+                </label>
+                <input type="file" id="fileInput" accept="image/*">
+            </section>
+
+            <section class="settings-section" id="settingsSection">
+                <div class="preview-container">
+                    <canvas id="previewCanvas"></canvas>
+                </div>
+
+                <div class="controls">
+                    <div class="slider-row">
+                        <label for="scaleSlider" data-i18n="scaleLabel">Échelle (x)</label>
+                        <input type="range" id="scaleSlider" min="1" max="10" step="1" value="2">
+                        <span class="slider-value" id="scaleValue">2</span>
+                    </div>
+
+                    <div class="slider-row">
+                        <label for="lossSlider" data-i18n="lossLabel">Intensité de la perte</label>
+                        <input type="range" id="lossSlider" min="0" max="50" value="0">
+                        <span class="slider-value" id="lossValue">0%</span>
+                    </div>
+
+                    <button id="scaleBtn" class="btn-primary" data-i18n="resizeBtn">Redimensionner</button>
+                </div>
+            </section>
+
+            <section class="results-section" id="resultsSection">
+                <div class="results-header">
+                    <h2 data-i18n="result">Résultat</h2>
+                    <span id="resultSizeLabel" data-i18n="resultSize">Dimensions</span>
+                    <span id="resultSizeValue"></span>
+                </div>
+                <div class="result-preview">
+                    <canvas id="resultCanvas"></canvas>
+                </div>
+                <div class="results-actions">
+                    <button id="downloadBtn" class="btn-secondary" data-i18n="download">Télécharger</button>
+                    <button id="resetBtn" class="btn-secondary" data-i18n="newImage">Nouvelle image</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
