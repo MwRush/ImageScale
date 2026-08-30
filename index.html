@@ -12,12 +12,11 @@
     <div class="app_shell">
         <header class="topbar">
             <div class="brand_block">
-                <span class="eyebrow" data_i18n="eyebrow">Traitement local par lot</span>
+                <span class="eyebrow">Traitement local par lot</span>
                 <h1>Image Scale</h1>
-                <p data_i18n="subtitle">Redimensionnez vos images sans les envoyer sur un serveur.</p>
+                <p>Redimensionnez vos images sans les envoyer sur un serveur.</p>
             </div>
             <div class="header_actions">
-                <button id="language_toggle" class="icon_button language_button" type="button" aria-label="Passer en anglais">EN</button>
                 <button id="theme_toggle" class="icon_button" type="button" aria-label="Activer le thème sombre">
                     <svg class="sun_icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="4"></circle>
@@ -39,20 +38,20 @@
                     </svg>
                 </div>
                 <div class="drop_copy">
-                    <h2 id="import_title" data_i18n="import_title">Ajoutez vos images</h2>
-                    <p data_i18n="import_description">Déposez des images ou un dossier ici, ou utilisez les boutons ci-dessous.</p>
+                    <h2 id="import_title">Ajoutez vos images</h2>
+                    <p>Déposez des images ou un dossier ici, ou utilisez les boutons ci-dessous.</p>
                 </div>
                 <div class="upload_actions">
                     <input class="visually_hidden" type="file" id="file_input" accept="image/*" multiple>
                     <label class="button primary_button" for="file_input">
-                        <span data_i18n="choose_images">Choisir des images</span>
+                        <span>Choisir des images</span>
                     </label>
                     <input class="visually_hidden" type="file" id="folder_input" accept="image/*" webkitdirectory directory multiple>
                     <label class="button secondary_button" for="folder_input">
-                        <span data_i18n="choose_folder">Choisir un dossier</span>
+                        <span>Choisir un dossier</span>
                     </label>
                 </div>
-                <p class="privacy_note" data_i18n="privacy_note">Vos fichiers restent dans ce navigateur. Les animations sont exportées comme images fixes.</p>
+                <p class="privacy_note">Vos fichiers restent dans ce navigateur. Les animations sont exportées comme images fixes.</p>
                 <p id="import_status" class="import_status" aria-live="polite"></p>
             </section>
 
@@ -60,15 +59,15 @@
                 <div class="section_heading">
                     <div>
                         <span class="section_index">01</span>
-                        <h2 data_i18n="settings_title">Réglages globaux</h2>
+                        <h2>Réglages globaux</h2>
                     </div>
-                    <button id="clear_button" class="text_button" type="button" data_i18n="clear_all">Tout retirer</button>
+                    <button id="clear_button" class="text_button" type="button">Tout retirer</button>
                 </div>
 
                 <div class="settings_grid">
                     <div class="setting_control">
                         <div class="setting_label">
-                            <label for="scale_slider" data_i18n="scale_label">Facteur d’échelle</label>
+                            <label for="scale_slider">Facteur d’échelle</label>
                             <output id="scale_value" for="scale_slider">×2</output>
                         </div>
                         <input type="range" id="scale_slider" min="1" max="10" step="1" value="2">
@@ -76,14 +75,14 @@
                     </div>
                     <div class="setting_control">
                         <div class="setting_label">
-                            <label for="loss_slider" data_i18n="loss_label">Adoucissement</label>
+                            <label for="loss_slider">Adoucissement</label>
                             <output id="loss_value" for="loss_slider">0%</output>
                         </div>
                         <input type="range" id="loss_slider" min="0" max="50" step="1" value="0">
                         <div class="range_limits" aria-hidden="true"><span>0%</span><span>50%</span></div>
                     </div>
                     <button id="process_button" class="button action_button" type="button">
-                        <span data_i18n="process_button">Redimensionner le lot</span>
+                        <span>Redimensionner le lot</span>
                         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M5 12h14M13 6l6 6-6 6"></path>
                         </svg>
@@ -93,7 +92,7 @@
                 <div class="section_heading queue_heading">
                     <div>
                         <span class="section_index">02</span>
-                        <h2 data_i18n="queue_title">Fichiers sélectionnés</h2>
+                        <h2>Fichiers sélectionnés</h2>
                     </div>
                     <span id="selection_summary" class="selection_summary"></span>
                 </div>
@@ -105,7 +104,7 @@
                 <div class="section_heading">
                     <div>
                         <span class="section_index">03</span>
-                        <h2 id="results_title" data_i18n="results_title">Export</h2>
+                        <h2 id="results_title">Export</h2>
                     </div>
                     <span id="result_summary" class="selection_summary"></span>
                 </div>
@@ -124,14 +123,14 @@
                             <path d="M12 3v12M7 10l5 5 5-5"></path>
                             <path d="M5 21h14"></path>
                         </svg>
-                        <span data_i18n="download_zip">Télécharger le ZIP</span>
+                        <span>Télécharger le ZIP</span>
                     </button>
                 </div>
             </section>
         </main>
 
         <footer>
-            <span data_i18n="footer_text">Traitement local · Export PNG · Structure des dossiers conservée</span>
+            <span>Traitement local · Export PNG · Structure des dossiers conservée</span>
         </footer>
     </div>
 

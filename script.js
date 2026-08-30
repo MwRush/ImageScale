@@ -1,108 +1,36 @@
-const translations = {
-    fr: {
-        page_title: 'Image Scale · Redimensionnement par lot',
-        eyebrow: 'Traitement local par lot',
-        subtitle: 'Redimensionnez vos images sans les envoyer sur un serveur.',
-        import_title: 'Ajoutez vos images',
-        import_description: 'Déposez des images ou un dossier ici, ou utilisez les boutons ci-dessous.',
-        choose_images: 'Choisir des images',
-        choose_folder: 'Choisir un dossier',
-        privacy_note: 'Vos fichiers restent dans ce navigateur. Les animations sont exportées comme images fixes.',
-        settings_title: 'Réglages globaux',
-        clear_all: 'Tout retirer',
-        scale_label: 'Facteur d’échelle',
-        loss_label: 'Adoucissement',
-        process_button: 'Redimensionner le lot',
-        queue_title: 'Fichiers sélectionnés',
-        results_title: 'Export',
-        ready_to_process: 'Prêt à traiter',
-        download_zip: 'Télécharger le ZIP',
-        creating_zip: 'Création du ZIP…',
-        footer_text: 'Traitement local · Export PNG · Structure des dossiers conservée',
-        switch_language: 'Passer en anglais',
-        enable_dark_theme: 'Activer le thème sombre',
-        enable_light_theme: 'Activer le thème clair',
-        pending: 'En attente',
-        reading: 'Analyse',
-        processing: 'Traitement',
-        ready: 'Prête',
-        invalid_image: 'Image illisible',
-        output_too_large: 'Sortie trop grande',
-        processing_error: 'Échec du traitement',
-        remove_file: 'Retirer ce fichier',
-        download_file: 'Télécharger cette image',
-        source_dimensions: 'Source : {width} × {height}',
-        target_dimensions: 'Cible : {width} × {height}',
-        output_path: 'Sortie : {path}',
-        files_summary: '{count} fichier(s) · {size}',
-        results_summary: '{success} prête(s) · {errors} erreur(s)',
-        processing_file: 'Traitement de {name}',
-        processing_complete: 'Traitement terminé',
-        processing_failed: 'Aucune image n’a pu être traitée',
-        processed_summary: '{success} image(s) prête(s), {errors} erreur(s).',
-        files_added: '{count} image(s) ajoutée(s).',
-        files_ignored: '{count} fichier(s) non image ignoré(s).',
-        duplicate_files: '{count} doublon(s) ignoré(s).',
-        archive_ready: 'Archive ZIP prête au téléchargement.',
-        archive_error: 'Impossible de créer l’archive ZIP.',
-        archive_too_large: 'L’archive dépasse la limite ZIP de 4 Go.',
-        empty_selection: 'Ajoutez au moins une image valide.',
-        settings_changed: 'Réglages modifiés. Relancez le traitement.',
-        unknown_dimensions: 'Dimensions en cours de lecture',
-        png_output: 'Sortie PNG'
-    },
-    en: {
-        page_title: 'Image Scale · Batch resizing',
-        eyebrow: 'Local batch processing',
-        subtitle: 'Resize your images without sending them to a server.',
-        import_title: 'Add your images',
-        import_description: 'Drop images or a folder here, or use the buttons below.',
-        choose_images: 'Choose images',
-        choose_folder: 'Choose a folder',
-        privacy_note: 'Your files stay in this browser. Animations are exported as still images.',
-        settings_title: 'Global settings',
-        clear_all: 'Remove all',
-        scale_label: 'Scale factor',
-        loss_label: 'Smoothing',
-        process_button: 'Resize batch',
-        queue_title: 'Selected files',
-        results_title: 'Export',
-        ready_to_process: 'Ready to process',
-        download_zip: 'Download ZIP',
-        creating_zip: 'Creating ZIP…',
-        footer_text: 'Local processing · PNG export · Folder structure preserved',
-        switch_language: 'Switch to French',
-        enable_dark_theme: 'Enable dark theme',
-        enable_light_theme: 'Enable light theme',
-        pending: 'Pending',
-        reading: 'Reading',
-        processing: 'Processing',
-        ready: 'Ready',
-        invalid_image: 'Unreadable image',
-        output_too_large: 'Output too large',
-        processing_error: 'Processing failed',
-        remove_file: 'Remove this file',
-        download_file: 'Download this image',
-        source_dimensions: 'Source: {width} × {height}',
-        target_dimensions: 'Target: {width} × {height}',
-        output_path: 'Output: {path}',
-        files_summary: '{count} file(s) · {size}',
-        results_summary: '{success} ready · {errors} error(s)',
-        processing_file: 'Processing {name}',
-        processing_complete: 'Processing complete',
-        processing_failed: 'No image could be processed',
-        processed_summary: '{success} image(s) ready, {errors} error(s).',
-        files_added: '{count} image(s) added.',
-        files_ignored: '{count} non-image file(s) ignored.',
-        duplicate_files: '{count} duplicate(s) ignored.',
-        archive_ready: 'ZIP archive ready for download.',
-        archive_error: 'Unable to create the ZIP archive.',
-        archive_too_large: 'The archive exceeds the 4 GB ZIP limit.',
-        empty_selection: 'Add at least one valid image.',
-        settings_changed: 'Settings changed. Run the processing again.',
-        unknown_dimensions: 'Reading dimensions',
-        png_output: 'PNG output'
-    }
+const messages = {
+    ready_to_process: 'Prêt à traiter',
+    download_zip: 'Télécharger le ZIP',
+    creating_zip: 'Création du ZIP…',
+    enable_dark_theme: 'Activer le thème sombre',
+    enable_light_theme: 'Activer le thème clair',
+    pending: 'En attente',
+    reading: 'Analyse',
+    processing: 'Traitement',
+    ready: 'Prête',
+    invalid_image: 'Image illisible',
+    output_too_large: 'Sortie trop grande',
+    processing_error: 'Échec du traitement',
+    remove_file: 'Retirer ce fichier',
+    download_file: 'Télécharger cette image',
+    source_dimensions: 'Source : {width} × {height}',
+    target_dimensions: 'Cible : {width} × {height}',
+    output_path: 'Sortie : {path}',
+    files_summary: '{count} fichier(s) · {size}',
+    results_summary: '{success} prête(s) · {errors} erreur(s)',
+    processing_file: 'Traitement de {name}',
+    processing_complete: 'Traitement terminé',
+    processing_failed: 'Aucune image n’a pu être traitée',
+    processed_summary: '{success} image(s) prête(s), {errors} erreur(s).',
+    files_added: '{count} image(s) ajoutée(s).',
+    files_ignored: '{count} fichier(s) non image ignoré(s).',
+    duplicate_files: '{count} doublon(s) ignoré(s).',
+    archive_ready: 'Archive ZIP prête au téléchargement.',
+    archive_error: 'Impossible de créer l’archive ZIP.',
+    archive_too_large: 'L’archive dépasse la limite ZIP de 4 Go.',
+    empty_selection: 'Ajoutez au moins une image valide.',
+    settings_changed: 'Réglages modifiés. Relancez le traitement.',
+    unknown_dimensions: 'Dimensions en cours de lecture'
 };
 
 const maximum_output_pixels = 40000000;
@@ -110,7 +38,6 @@ const maximum_canvas_dimension = 16384;
 const permanent_error_keys = new Set(['invalid_image']);
 
 const elements = {
-    language_toggle: document.getElementById('language_toggle'),
     theme_toggle: document.getElementById('theme_toggle'),
     drop_zone: document.getElementById('drop_zone'),
     file_input: document.getElementById('file_input'),
@@ -140,7 +67,6 @@ let next_item_id = 1;
 let is_processing = false;
 let progress_label_key = 'ready_to_process';
 let progress_label_replacements = {};
-let current_language = get_saved_value('language') || 'fr';
 let current_theme = get_saved_value('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
 function get_saved_value(key) {
@@ -159,9 +85,8 @@ function save_value(key, value) {
     }
 }
 
-function translate(key, replacements = {}) {
-    const dictionary = translations[current_language] || translations.fr;
-    let value = dictionary[key] || translations.fr[key] || key;
+function format_message(key, replacements = {}) {
+    let value = messages[key] || key;
 
     for (const [replacement_key, replacement_value] of Object.entries(replacements)) {
         value = value.replaceAll(`{${replacement_key}}`, String(replacement_value));
@@ -181,35 +106,12 @@ function set_theme(theme, should_save = true) {
     update_accessible_labels();
 }
 
-function set_language(language, should_save = true) {
-    current_language = language === 'en' ? 'en' : 'fr';
-    document.documentElement.lang = current_language;
-    document.title = translate('page_title');
-
-    document.querySelectorAll('[data_i18n]').forEach((element) => {
-        element.textContent = translate(element.getAttribute('data_i18n'));
-    });
-
-    elements.language_toggle.textContent = current_language === 'fr' ? 'EN' : 'FR';
-
-    if (should_save) {
-        save_value('language', current_language);
-    }
-
-    elements.progress_label.textContent = translate(progress_label_key, progress_label_replacements);
-    elements.import_status.textContent = '';
-    elements.live_status.textContent = '';
-    update_accessible_labels();
-    update_interface();
-}
-
 function update_accessible_labels() {
-    if (!elements.language_toggle || !elements.theme_toggle) {
+    if (!elements.theme_toggle) {
         return;
     }
 
-    elements.language_toggle.setAttribute('aria-label', translate('switch_language'));
-    elements.theme_toggle.setAttribute('aria-label', translate(current_theme === 'light' ? 'enable_dark_theme' : 'enable_light_theme'));
+    elements.theme_toggle.setAttribute('aria-label', format_message(current_theme === 'light' ? 'enable_dark_theme' : 'enable_light_theme'));
 }
 
 function format_bytes(bytes) {
@@ -309,11 +211,11 @@ async function add_candidates(candidates) {
     if (new_items.length > 0) {
         invalidate_results(false);
         elements.workspace_section.hidden = false;
-        elements.import_status.textContent = translate('files_added', { count: new_items.length });
+        elements.import_status.textContent = format_message('files_added', { count: new_items.length });
     } else if (ignored_count > 0) {
-        elements.import_status.textContent = translate('files_ignored', { count: ignored_count });
+        elements.import_status.textContent = format_message('files_ignored', { count: ignored_count });
     } else if (duplicate_count > 0) {
-        elements.import_status.textContent = translate('duplicate_files', { count: duplicate_count });
+        elements.import_status.textContent = format_message('duplicate_files', { count: duplicate_count });
     }
 
     update_interface();
@@ -341,11 +243,11 @@ async function add_candidates(candidates) {
         const notices = [];
 
         if (ignored_count > 0) {
-            notices.push(translate('files_ignored', { count: ignored_count }));
+            notices.push(format_message('files_ignored', { count: ignored_count }));
         }
 
         if (duplicate_count > 0) {
-            notices.push(translate('duplicate_files', { count: duplicate_count }));
+            notices.push(format_message('duplicate_files', { count: duplicate_count }));
         }
 
         elements.import_status.textContent = notices.join(' ');
@@ -438,24 +340,24 @@ function render_queue() {
 
         if (item.width && item.height) {
             const source_dimensions = document.createElement('span');
-            source_dimensions.textContent = translate('source_dimensions', { width: item.width, height: item.height });
+            source_dimensions.textContent = format_message('source_dimensions', { width: item.width, height: item.height });
             metadata.append(source_dimensions);
 
             const target = get_target_dimensions(item);
             const target_dimensions = document.createElement('span');
             target_dimensions.className = 'target_dimensions';
-            target_dimensions.textContent = translate('target_dimensions', target);
+            target_dimensions.textContent = format_message('target_dimensions', target);
             metadata.append(target_dimensions);
 
             if (item.result) {
                 const output_path = document.createElement('span');
                 output_path.className = 'target_dimensions';
-                output_path.textContent = translate('output_path', { path: item.result.path });
+                output_path.textContent = format_message('output_path', { path: item.result.path });
                 metadata.append(output_path);
             }
         } else {
             const unknown_dimensions = document.createElement('span');
-            unknown_dimensions.textContent = translate('unknown_dimensions');
+            unknown_dimensions.textContent = format_message('unknown_dimensions');
             metadata.append(unknown_dimensions);
         }
 
@@ -463,14 +365,14 @@ function render_queue() {
 
         const status = document.createElement('span');
         status.className = `status_badge status_${item.status}`;
-        status.textContent = translate(item.status === 'error' ? item.error_key : item.status);
+        status.textContent = format_message(item.status === 'error' ? item.error_key : item.status);
 
         const actions = document.createElement('div');
         actions.className = 'item_actions';
 
         if (item.result) {
             const download_button = create_row_button(
-                translate('download_file'),
+                format_message('download_file'),
                 '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5"></path><path d="M5 21h14"></path></svg>',
                 'download_button',
                 () => download_result(item)
@@ -479,7 +381,7 @@ function render_queue() {
         }
 
         const remove_button = create_row_button(
-            translate('remove_file'),
+            format_message('remove_file'),
             '<svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"></path></svg>',
             'remove_button',
             () => remove_item(item.id)
@@ -499,11 +401,11 @@ function update_summaries() {
     const success_count = processed_entries.length;
     const error_count = selected_items.filter((item) => item.status === 'error').length;
 
-    elements.selection_summary.textContent = translate('files_summary', {
+    elements.selection_summary.textContent = format_message('files_summary', {
         count: selected_items.length,
         size: format_bytes(total_size)
     });
-    elements.result_summary.textContent = translate('results_summary', {
+    elements.result_summary.textContent = format_message('results_summary', {
         success: success_count,
         errors: error_count
     });
@@ -516,7 +418,6 @@ function update_controls() {
 
     elements.file_input.disabled = controls_disabled;
     elements.folder_input.disabled = controls_disabled;
-    elements.language_toggle.disabled = controls_disabled;
     elements.clear_button.disabled = controls_disabled;
     elements.scale_slider.disabled = controls_disabled;
     elements.loss_slider.disabled = controls_disabled;
@@ -554,10 +455,10 @@ function invalidate_results(show_notice = true) {
     elements.progress_value.textContent = '0%';
     progress_label_key = 'ready_to_process';
     progress_label_replacements = {};
-    elements.progress_label.textContent = translate('ready_to_process');
+    elements.progress_label.textContent = format_message('ready_to_process');
 
     if (show_notice) {
-        elements.live_status.textContent = translate('settings_changed');
+        elements.live_status.textContent = format_message('settings_changed');
     }
 }
 
@@ -596,7 +497,7 @@ function clear_selection() {
     elements.progress_value.textContent = '0%';
     progress_label_key = 'ready_to_process';
     progress_label_replacements = {};
-    elements.progress_label.textContent = translate('ready_to_process');
+    elements.progress_label.textContent = format_message('ready_to_process');
     elements.import_status.textContent = '';
     elements.live_status.textContent = '';
     update_interface();
@@ -608,7 +509,7 @@ function create_output_path(source_path, scale_factor, used_paths) {
     const extension_index = file_name.lastIndexOf('.');
     const base_name = extension_index > 0 ? file_name.slice(0, extension_index) : file_name;
     const directory = segments.length > 0 ? `${segments.join('/')}/` : '';
-    const base_output_name = `${base_name}_scaled_x${scale_factor}`;
+    const base_output_name = `${base_name}_redimensionnee_x${scale_factor}`;
     let output_path = `${directory}${base_output_name}.png`;
     let duplicate_index = 2;
 
@@ -718,7 +619,7 @@ function update_progress(completed_count, total_count, label_key, replacements =
     elements.progress_value.textContent = `${percentage}%`;
     progress_label_key = label_key;
     progress_label_replacements = replacements;
-    elements.progress_label.textContent = translate(label_key, replacements);
+    elements.progress_label.textContent = format_message(label_key, replacements);
 }
 
 async function process_batch() {
@@ -729,7 +630,7 @@ async function process_batch() {
     const processable_items = selected_items.filter((item) => !permanent_error_keys.has(item.error_key));
 
     if (processable_items.length === 0) {
-        elements.live_status.textContent = translate('empty_selection');
+        elements.live_status.textContent = format_message('empty_selection');
         return;
     }
 
@@ -790,7 +691,7 @@ async function process_batch() {
     const error_count = selected_items.filter((item) => item.status === 'error').length;
     is_processing = false;
     update_progress(processable_items.length, processable_items.length, success_count > 0 ? 'processing_complete' : 'processing_failed');
-    elements.live_status.textContent = translate('processed_summary', { success: success_count, errors: error_count });
+    elements.live_status.textContent = format_message('processed_summary', { success: success_count, errors: error_count });
     update_interface();
 }
 
@@ -810,7 +711,7 @@ function download_result(item) {
         return;
     }
 
-    const file_name = item.result.path.split('/').pop() || 'scaled_image.png';
+    const file_name = item.result.path.split('/').pop() || 'image_redimensionnee.png';
     trigger_download(item.result.blob, file_name);
 }
 
@@ -821,19 +722,19 @@ async function download_zip() {
 
     const button_label = elements.download_zip_button.querySelector('span');
     elements.download_zip_button.disabled = true;
-    button_label.textContent = translate('creating_zip');
+    button_label.textContent = format_message('creating_zip');
 
     try {
         const archive_blob = await create_zip_archive(processed_entries);
         const date_stamp = new Date().toISOString().slice(0, 10).replaceAll('-', '_');
-        const archive_name = `image_scale_x${elements.scale_slider.value}_${date_stamp}.zip`;
+        const archive_name = `images_redimensionnees_x${elements.scale_slider.value}_${date_stamp}.zip`;
         trigger_download(archive_blob, archive_name);
-        elements.live_status.textContent = translate('archive_ready');
+        elements.live_status.textContent = format_message('archive_ready');
     } catch (error) {
         const error_key = error instanceof Error && error.message === 'archive_too_large' ? 'archive_too_large' : 'archive_error';
-        elements.live_status.textContent = translate(error_key);
+        elements.live_status.textContent = format_message(error_key);
     } finally {
-        button_label.textContent = translate('download_zip');
+        button_label.textContent = format_message('download_zip');
         elements.download_zip_button.disabled = processed_entries.length === 0;
     }
 }
@@ -908,10 +809,6 @@ async function collect_drop_candidates(data_transfer) {
 }
 
 function bind_events() {
-    elements.language_toggle.addEventListener('click', () => {
-        set_language(current_language === 'fr' ? 'en' : 'fr');
-    });
-
     elements.theme_toggle.addEventListener('click', () => {
         set_theme(current_theme === 'light' ? 'dark' : 'light');
     });
@@ -965,7 +862,6 @@ function bind_events() {
 
 function initialize() {
     set_theme(current_theme, false);
-    set_language(current_language, false);
     bind_events();
     update_interface();
 }

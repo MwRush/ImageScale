@@ -181,12 +181,6 @@ h1 {
     height: 19px;
 }
 
-.language_button {
-    font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-    font-size: 0.75rem;
-    font-weight: 700;
-}
-
 [data_theme="light"] .sun_icon,
 [data_theme="dark"] .moon_icon {
     display: none;
