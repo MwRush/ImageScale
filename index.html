@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Redimensionnez plusieurs images localement et exportez-les dans une archive ZIP.">
+    <meta name="description" content="Redimensionnez vos images, conservez vos autres fichiers et exportez le tout dans une archive ZIP.">
     <title>Image Scale</title>
     <link rel="icon" type="image/png" href="website_icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,12 +18,12 @@
         </header>
 
         <main>
-            <input class="visually_hidden" type="file" id="file_input" accept="image/*" multiple tabindex="-1">
+            <input class="visually_hidden" type="file" id="file_input" multiple tabindex="-1">
             <button id="drop_zone" class="drop_zone" type="button" aria-labelledby="import_title">
                 <svg class="drop_icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M12 5v14M5 12h14"></path>
                 </svg>
-                <span id="import_title" class="drop_title">Ajouter vos images</span>
+                <span id="import_title" class="drop_title">Ajouter vos fichiers</span>
             </button>
             <p id="import_status" class="visually_hidden" aria-live="polite"></p>
 
@@ -51,7 +51,7 @@
                         <div class="range_limits" aria-hidden="true"><span>0%</span><span>50%</span></div>
                     </div>
                     <button id="process_button" class="button action_button" type="button">
-                        <span>Redimensionner</span>
+                        <span>Préparer l’export</span>
                         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M5 12h14M13 6l6 6-6 6"></path>
                         </svg>
@@ -59,7 +59,7 @@
                 </div>
 
                 <div class="section_heading queue_heading">
-                    <h2>Images</h2>
+                    <h2>Fichiers</h2>
                     <span id="selection_summary" class="selection_summary"></span>
                 </div>
 

@@ -5,35 +5,36 @@ const messages = {
     pending: 'En attente',
     reading: 'Analyse',
     processing: 'Traitement',
-    ready: 'Prête',
-    invalid_image: 'Image illisible',
+    ready: 'Prêt',
+    passthrough: 'À conserver',
+    preserved: 'Conservé',
     output_too_large: 'Sortie trop grande',
     processing_error: 'Échec du traitement',
     remove_file: 'Retirer ce fichier',
-    download_file: 'Télécharger cette image',
+    download_file: 'Télécharger ce fichier',
     source_dimensions: 'Source : {width} × {height}',
     target_dimensions: 'Cible : {width} × {height}',
     output_path: 'Sortie : {path}',
+    passthrough_note: 'Conservé sans modification',
+    preserved_path: 'Conservé : {path}',
     files_summary: '{count} fichier(s) · {size}',
-    results_summary: '{success} prête(s) · {errors} erreur(s)',
-    processing_file: 'Traitement de {name}',
+    results_summary: '{success} prêt(s) · {errors} erreur(s)',
+    processing_file: 'Préparation de {name}',
     processing_complete: 'Traitement terminé',
-    processing_failed: 'Aucune image n’a pu être traitée',
-    processed_summary: '{success} image(s) prête(s), {errors} erreur(s).',
-    files_added: '{count} image(s) ajoutée(s).',
-    files_ignored: '{count} fichier(s) non image ignoré(s).',
+    processing_failed: 'Aucun fichier n’a pu être préparé',
+    processed_summary: '{success} fichier(s) prêt(s), {errors} erreur(s).',
+    files_added: '{count} fichier(s) ajouté(s).',
     duplicate_files: '{count} doublon(s) ignoré(s).',
     archive_ready: 'Archive ZIP prête au téléchargement.',
     archive_error: 'Impossible de créer l’archive ZIP.',
     archive_too_large: 'L’archive dépasse la limite ZIP de 4 Go.',
-    empty_selection: 'Ajoutez au moins une image valide.',
+    empty_selection: 'Ajoutez au moins un fichier.',
     settings_changed: 'Réglages modifiés. Relancez le traitement.',
     unknown_dimensions: 'Dimensions en cours de lecture'
 };
 
 const maximum_output_pixels = 40000000;
 const maximum_canvas_dimension = 16384;
-const permanent_error_keys = new Set(['invalid_image']);
 
 const elements = {
     drop_zone: document.getElementById('drop_zone'),
@@ -113,7 +114,7 @@ function is_image_file(file) {
 }
 
 function get_candidate_key(candidate) {
-    return `${candidate.path.toLocaleLowerCase()}\u0000${candidate.file.size}\u0000${candidate.file.lastModified}`;
+    return `${candidate.path.toLowerCase()}\u0000${candidate.file.size}\u0000${candidate.file.lastModified}`;
 }
 
 function create_candidates_from_files(files) {
@@ -130,12 +131,10 @@ async function add_candidates(candidates) {
 
     const existing_keys = new Set(selected_items.map((item) => item.candidate_key));
     const new_items = [];
-    let ignored_count = 0;
     let duplicate_count = 0;
 
     for (const candidate of candidates) {
-        if (!candidate.file || !is_image_file(candidate.file)) {
-            ignored_count += 1;
+        if (!candidate.file) {
             continue;
         }
 
@@ -151,14 +150,16 @@ async function add_candidates(candidates) {
         }
 
         existing_keys.add(candidate_key);
+        const is_image = is_image_file(normalized_candidate.file);
         const item = {
             id: next_item_id,
             candidate_key,
             file: normalized_candidate.file,
             path: normalized_candidate.path,
+            is_image,
             width: null,
             height: null,
-            status: 'reading',
+            status: is_image ? 'reading' : 'passthrough',
             error_key: null,
             result: null
         };
@@ -172,8 +173,6 @@ async function add_candidates(candidates) {
         invalidate_results(false);
         elements.workspace_section.hidden = false;
         elements.import_status.textContent = format_message('files_added', { count: new_items.length });
-    } else if (ignored_count > 0) {
-        elements.import_status.textContent = format_message('files_ignored', { count: ignored_count });
     } else if (duplicate_count > 0) {
         elements.import_status.textContent = format_message('duplicate_files', { count: duplicate_count });
     }
@@ -181,7 +180,7 @@ async function add_candidates(candidates) {
     update_interface();
 
     for (const item of new_items) {
-        if (!selected_items.includes(item)) {
+        if (!selected_items.includes(item) || !item.is_image) {
             continue;
         }
 
@@ -192,25 +191,16 @@ async function add_candidates(candidates) {
             item.status = 'pending';
             decoded_image.dispose();
         } catch {
-            item.status = 'error';
-            item.error_key = 'invalid_image';
+            item.is_image = false;
+            item.status = 'passthrough';
+            item.error_key = null;
         }
 
         update_interface();
     }
 
-    if (ignored_count > 0 || duplicate_count > 0) {
-        const notices = [];
-
-        if (ignored_count > 0) {
-            notices.push(format_message('files_ignored', { count: ignored_count }));
-        }
-
-        if (duplicate_count > 0) {
-            notices.push(format_message('duplicate_files', { count: duplicate_count }));
-        }
-
-        elements.import_status.textContent = notices.join(' ');
+    if (duplicate_count > 0) {
+        elements.import_status.textContent = format_message('duplicate_files', { count: duplicate_count });
     }
 }
 
@@ -298,7 +288,7 @@ function render_queue() {
         file_size.textContent = format_bytes(item.file.size);
         metadata.append(file_size);
 
-        if (item.width && item.height) {
+        if (item.is_image && item.width && item.height) {
             const source_dimensions = document.createElement('span');
             source_dimensions.textContent = format_message('source_dimensions', { width: item.width, height: item.height });
             metadata.append(source_dimensions);
@@ -315,10 +305,16 @@ function render_queue() {
                 output_path.textContent = format_message('output_path', { path: item.result.path });
                 metadata.append(output_path);
             }
-        } else {
+        } else if (item.is_image) {
             const unknown_dimensions = document.createElement('span');
             unknown_dimensions.textContent = format_message('unknown_dimensions');
             metadata.append(unknown_dimensions);
+        } else {
+            const passthrough_note = document.createElement('span');
+            passthrough_note.textContent = format_message(item.result ? 'preserved_path' : 'passthrough_note', {
+                path: item.result?.path
+            });
+            metadata.append(passthrough_note);
         }
 
         details.append(path, metadata);
@@ -373,7 +369,7 @@ function update_summaries() {
 
 function update_controls() {
     const has_reading_items = selected_items.some((item) => item.status === 'reading');
-    const has_processable_items = selected_items.some((item) => !permanent_error_keys.has(item.error_key));
+    const has_processable_items = selected_items.length > 0;
     const controls_disabled = is_processing;
 
     elements.file_input.disabled = controls_disabled;
@@ -403,11 +399,8 @@ function invalidate_results(show_notice = true) {
 
     for (const item of selected_items) {
         item.result = null;
-
-        if (!permanent_error_keys.has(item.error_key)) {
-            item.status = item.width && item.height ? 'pending' : 'reading';
-            item.error_key = null;
-        }
+        item.status = item.is_image ? (item.width && item.height ? 'pending' : 'reading') : 'passthrough';
+        item.error_key = null;
     }
 
     elements.results_section.hidden = true;
@@ -472,14 +465,35 @@ function create_output_path(source_path, scale_factor, used_paths) {
     let output_path = `${directory}${base_output_name}.png`;
     let duplicate_index = 2;
 
-    while (used_paths.has(output_path.toLocaleLowerCase())) {
+    while (used_paths.has(output_path.toLowerCase())) {
         output_path = `${directory}${base_output_name}_${duplicate_index}.png`;
         duplicate_index += 1;
     }
 
-    used_paths.add(output_path.toLocaleLowerCase());
+    used_paths.add(output_path.toLowerCase());
 
     return output_path;
+}
+
+function create_preserved_path(source_path, used_paths) {
+    const normalized_path = normalize_relative_path(source_path);
+    const segments = normalized_path.split('/');
+    const file_name = segments.pop() || 'fichier';
+    const extension_index = file_name.lastIndexOf('.');
+    const base_name = extension_index > 0 ? file_name.slice(0, extension_index) : file_name;
+    const extension = extension_index > 0 ? file_name.slice(extension_index) : '';
+    const directory = segments.length > 0 ? `${segments.join('/')}/` : '';
+    let preserved_path = `${directory}${file_name}`;
+    let duplicate_index = 2;
+
+    while (used_paths.has(preserved_path.toLowerCase())) {
+        preserved_path = `${directory}${base_name}_${duplicate_index}${extension}`;
+        duplicate_index += 1;
+    }
+
+    used_paths.add(preserved_path.toLowerCase());
+
+    return preserved_path;
 }
 
 function canvas_to_blob(canvas) {
@@ -586,7 +600,7 @@ async function process_batch() {
         return;
     }
 
-    const processable_items = selected_items.filter((item) => !permanent_error_keys.has(item.error_key));
+    const processable_items = [...selected_items];
 
     if (processable_items.length === 0) {
         elements.live_status.textContent = format_message('empty_selection');
@@ -597,13 +611,20 @@ async function process_batch() {
     const scale_factor = Number(elements.scale_slider.value);
     const loss_percent = Number(elements.loss_slider.value);
     const used_paths = new Set();
+    const preserved_paths = new Map();
     let completed_count = 0;
     let success_count = 0;
 
     for (const item of processable_items) {
         item.result = null;
-        item.status = 'pending';
+        item.status = item.is_image ? 'pending' : 'passthrough';
         item.error_key = null;
+    }
+
+    for (const item of processable_items) {
+        if (!item.is_image) {
+            preserved_paths.set(item.id, create_preserved_path(item.path, used_paths));
+        }
     }
 
     is_processing = true;
@@ -619,22 +640,40 @@ async function process_batch() {
         update_interface();
 
         try {
-            const resized_image = await resize_image(item, scale_factor, loss_percent);
-            const output_path = create_output_path(item.path, scale_factor, used_paths);
-            item.result = {
-                blob: resized_image.blob,
-                path: output_path,
-                width: resized_image.width,
-                height: resized_image.height
-            };
-            item.status = 'ready';
-            processed_entries.push({
-                item_id: item.id,
-                path: output_path,
-                blob: resized_image.blob,
-                date: new Date(item.file.lastModified || Date.now())
-            });
-            success_count += 1;
+            if (!item.is_image) {
+                const preserved_path = preserved_paths.get(item.id);
+                item.result = {
+                    blob: item.file,
+                    path: preserved_path,
+                    width: null,
+                    height: null
+                };
+                item.status = 'preserved';
+                processed_entries.push({
+                    item_id: item.id,
+                    path: preserved_path,
+                    blob: item.file,
+                    date: new Date(item.file.lastModified || Date.now())
+                });
+                success_count += 1;
+            } else {
+                const resized_image = await resize_image(item, scale_factor, loss_percent);
+                const output_path = create_output_path(item.path, scale_factor, used_paths);
+                item.result = {
+                    blob: resized_image.blob,
+                    path: output_path,
+                    width: resized_image.width,
+                    height: resized_image.height
+                };
+                item.status = 'ready';
+                processed_entries.push({
+                    item_id: item.id,
+                    path: output_path,
+                    blob: resized_image.blob,
+                    date: new Date(item.file.lastModified || Date.now())
+                });
+                success_count += 1;
+            }
         } catch (error) {
             item.status = 'error';
             item.error_key = error instanceof Error && error.message === 'output_too_large' ? 'output_too_large' : 'processing_error';
@@ -670,7 +709,7 @@ function download_result(item) {
         return;
     }
 
-    const file_name = item.result.path.split('/').pop() || 'image_redimensionnee.png';
+    const file_name = item.result.path.split('/').pop() || 'fichier';
     trigger_download(item.result.blob, file_name);
 }
 
@@ -686,7 +725,7 @@ async function download_zip() {
     try {
         const archive_blob = await create_zip_archive(processed_entries);
         const date_stamp = new Date().toISOString().slice(0, 10).replaceAll('-', '_');
-        const archive_name = `images_redimensionnees_x${elements.scale_slider.value}_${date_stamp}.zip`;
+        const archive_name = `fichiers_prepares_x${elements.scale_slider.value}_${date_stamp}.zip`;
         trigger_download(archive_blob, archive_name);
         elements.live_status.textContent = format_message('archive_ready');
     } catch (error) {
