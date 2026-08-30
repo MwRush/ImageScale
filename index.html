@@ -3,89 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Redimensionnez plusieurs images localement et exportez-les dans une archive ZIP.">
     <title>Image Scale</title>
     <link rel="icon" type="image/png" href="website_icon.png">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <div class="header-top">
-                <h1 data-i18n="title">Image Scale</h1>
-                <div class="header-actions">
-                    <button id="langToggle" class="icon-btn" aria-label="Toggle language">EN</button>
-                    <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">
-                        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="5"></circle>
-                            <line x1="12" y1="1" x2="12" y2="3"></line>
-                            <line x1="12" y1="21" x2="12" y2="23"></line>
-                            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                            <line x1="1" y1="12" x2="3" y2="12"></line>
-                            <line x1="21" y1="12" x2="23" y2="12"></line>
-                            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                        </svg>
-                        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                        </svg>
-                    </button>
-                </div>
+    <div class="app_shell">
+        <header class="topbar">
+            <div class="brand_block">
+                <span class="eyebrow" data_i18n="eyebrow">Traitement local par lot</span>
+                <h1>Image Scale</h1>
+                <p data_i18n="subtitle">Redimensionnez vos images sans les envoyer sur un serveur.</p>
+            </div>
+            <div class="header_actions">
+                <button id="language_toggle" class="icon_button language_button" type="button" aria-label="Passer en anglais">EN</button>
+                <button id="theme_toggle" class="icon_button" type="button" aria-label="Activer le thème sombre">
+                    <svg class="sun_icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="4"></circle>
+                        <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
+                    </svg>
+                    <svg class="moon_icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
             </div>
         </header>
 
         <main>
-            <section class="upload-section">
-                <label for="fileInput" class="upload-label">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                        <polyline points="17 8 12 3 7 8"></polyline>
-                        <line x1="12" y1="3" x2="12" y2="15"></line>
+            <section id="drop_zone" class="drop_zone" aria-labelledby="import_title">
+                <div class="drop_icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+                        <path d="M12 16V4M7 9l5-5 5 5"></path>
+                        <path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"></path>
                     </svg>
-                    <span data-i18n="upload">Choisir une image</span>
-                </label>
-                <input type="file" id="fileInput" accept="image/*">
+                </div>
+                <div class="drop_copy">
+                    <h2 id="import_title" data_i18n="import_title">Ajoutez vos images</h2>
+                    <p data_i18n="import_description">Déposez des images ou un dossier ici, ou utilisez les boutons ci-dessous.</p>
+                </div>
+                <div class="upload_actions">
+                    <input class="visually_hidden" type="file" id="file_input" accept="image/*" multiple>
+                    <label class="button primary_button" for="file_input">
+                        <span data_i18n="choose_images">Choisir des images</span>
+                    </label>
+                    <input class="visually_hidden" type="file" id="folder_input" accept="image/*" webkitdirectory directory multiple>
+                    <label class="button secondary_button" for="folder_input">
+                        <span data_i18n="choose_folder">Choisir un dossier</span>
+                    </label>
+                </div>
+                <p class="privacy_note" data_i18n="privacy_note">Vos fichiers restent dans ce navigateur. Les animations sont exportées comme images fixes.</p>
+                <p id="import_status" class="import_status" aria-live="polite"></p>
             </section>
 
-            <section class="settings-section" id="settingsSection">
-                <div class="preview-container">
-                    <canvas id="previewCanvas"></canvas>
+            <section id="workspace_section" class="workspace_section" hidden>
+                <div class="section_heading">
+                    <div>
+                        <span class="section_index">01</span>
+                        <h2 data_i18n="settings_title">Réglages globaux</h2>
+                    </div>
+                    <button id="clear_button" class="text_button" type="button" data_i18n="clear_all">Tout retirer</button>
                 </div>
 
-                <div class="controls">
-                    <div class="slider-row">
-                        <label for="scaleSlider" data-i18n="scaleLabel">Échelle (x)</label>
-                        <input type="range" id="scaleSlider" min="1" max="10" step="1" value="2">
-                        <span class="slider-value" id="scaleValue">2</span>
+                <div class="settings_grid">
+                    <div class="setting_control">
+                        <div class="setting_label">
+                            <label for="scale_slider" data_i18n="scale_label">Facteur d’échelle</label>
+                            <output id="scale_value" for="scale_slider">×2</output>
+                        </div>
+                        <input type="range" id="scale_slider" min="1" max="10" step="1" value="2">
+                        <div class="range_limits" aria-hidden="true"><span>×1</span><span>×10</span></div>
                     </div>
-
-                    <div class="slider-row">
-                        <label for="lossSlider" data-i18n="lossLabel">Intensité de la perte</label>
-                        <input type="range" id="lossSlider" min="0" max="50" value="0">
-                        <span class="slider-value" id="lossValue">0%</span>
+                    <div class="setting_control">
+                        <div class="setting_label">
+                            <label for="loss_slider" data_i18n="loss_label">Adoucissement</label>
+                            <output id="loss_value" for="loss_slider">0%</output>
+                        </div>
+                        <input type="range" id="loss_slider" min="0" max="50" step="1" value="0">
+                        <div class="range_limits" aria-hidden="true"><span>0%</span><span>50%</span></div>
                     </div>
-
-                    <button id="scaleBtn" class="btn-primary" data-i18n="resizeBtn">Redimensionner</button>
+                    <button id="process_button" class="button action_button" type="button">
+                        <span data_i18n="process_button">Redimensionner le lot</span>
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M13 6l6 6-6 6"></path>
+                        </svg>
+                    </button>
                 </div>
+
+                <div class="section_heading queue_heading">
+                    <div>
+                        <span class="section_index">02</span>
+                        <h2 data_i18n="queue_title">Fichiers sélectionnés</h2>
+                    </div>
+                    <span id="selection_summary" class="selection_summary"></span>
+                </div>
+
+                <div id="queue_list" class="queue_list"></div>
             </section>
 
-            <section class="results-section" id="resultsSection">
-                <div class="results-header">
-                    <h2 data-i18n="result">Résultat</h2>
-                    <span id="resultSizeLabel" data-i18n="resultSize">Dimensions</span>
-                    <span id="resultSizeValue"></span>
+            <section id="results_section" class="results_section" hidden aria-labelledby="results_title">
+                <div class="section_heading">
+                    <div>
+                        <span class="section_index">03</span>
+                        <h2 id="results_title" data_i18n="results_title">Export</h2>
+                    </div>
+                    <span id="result_summary" class="selection_summary"></span>
                 </div>
-                <div class="result-preview">
-                    <canvas id="resultCanvas"></canvas>
-                </div>
-                <div class="results-actions">
-                    <button id="downloadBtn" class="btn-secondary" data-i18n="download">Télécharger</button>
-                    <button id="resetBtn" class="btn-secondary" data-i18n="newImage">Nouvelle image</button>
+
+                <div class="export_panel">
+                    <div class="progress_block">
+                        <div class="progress_copy">
+                            <span id="progress_label">Prêt à traiter</span>
+                            <span id="progress_value">0%</span>
+                        </div>
+                        <progress id="progress_bar" max="100" value="0">0%</progress>
+                        <p id="live_status" class="status_message" aria-live="polite"></p>
+                    </div>
+                    <button id="download_zip_button" class="button primary_button zip_button" type="button" disabled>
+                        <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 3v12M7 10l5 5 5-5"></path>
+                            <path d="M5 21h14"></path>
+                        </svg>
+                        <span data_i18n="download_zip">Télécharger le ZIP</span>
+                    </button>
                 </div>
             </section>
         </main>
+
+        <footer>
+            <span data_i18n="footer_text">Traitement local · Export PNG · Structure des dossiers conservée</span>
+        </footer>
     </div>
 
+    <script src="zip_archive.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
