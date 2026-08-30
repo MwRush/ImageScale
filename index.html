@@ -6,61 +6,30 @@
     <meta name="description" content="Redimensionnez plusieurs images localement et exportez-les dans une archive ZIP.">
     <title>Image Scale</title>
     <link rel="icon" type="image/png" href="website_icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,200..800&amp;display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="app_shell">
         <header class="topbar">
-            <div class="brand_block">
-                <span class="eyebrow">Traitement local par lot</span>
-                <h1>Image Scale</h1>
-                <p>Redimensionnez vos images sans les envoyer sur un serveur.</p>
-            </div>
-            <div class="header_actions">
-                <button id="theme_toggle" class="icon_button" type="button" aria-label="Activer le thème sombre">
-                    <svg class="sun_icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="4"></circle>
-                        <path d="M12 2v2M12 20v2M4.93 4.93l1.42 1.42M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.42-1.42M17.66 6.34l1.41-1.41"></path>
-                    </svg>
-                    <svg class="moon_icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </button>
-            </div>
+            <h1>Image Scale</h1>
         </header>
 
         <main>
-            <section id="drop_zone" class="drop_zone" aria-labelledby="import_title">
-                <div class="drop_icon" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
-                        <path d="M12 16V4M7 9l5-5 5 5"></path>
-                        <path d="M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"></path>
-                    </svg>
-                </div>
-                <div class="drop_copy">
-                    <h2 id="import_title">Ajoutez vos images</h2>
-                    <p>Déposez des images ou un dossier ici, ou utilisez les boutons ci-dessous.</p>
-                </div>
-                <div class="upload_actions">
-                    <input class="visually_hidden" type="file" id="file_input" accept="image/*" multiple>
-                    <label class="button primary_button" for="file_input">
-                        <span>Choisir des images</span>
-                    </label>
-                    <input class="visually_hidden" type="file" id="folder_input" accept="image/*" webkitdirectory directory multiple>
-                    <label class="button secondary_button" for="folder_input">
-                        <span>Choisir un dossier</span>
-                    </label>
-                </div>
-                <p class="privacy_note">Vos fichiers restent dans ce navigateur. Les animations sont exportées comme images fixes.</p>
-                <p id="import_status" class="import_status" aria-live="polite"></p>
-            </section>
+            <input class="visually_hidden" type="file" id="file_input" accept="image/*" multiple tabindex="-1">
+            <button id="drop_zone" class="drop_zone" type="button" aria-labelledby="import_title">
+                <svg class="drop_icon" aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 5v14M5 12h14"></path>
+                </svg>
+                <span id="import_title" class="drop_title">Ajouter vos images</span>
+            </button>
+            <p id="import_status" class="visually_hidden" aria-live="polite"></p>
 
             <section id="workspace_section" class="workspace_section" hidden>
                 <div class="section_heading">
-                    <div>
-                        <span class="section_index">01</span>
-                        <h2>Réglages globaux</h2>
-                    </div>
+                    <h2>Réglages</h2>
                     <button id="clear_button" class="text_button" type="button">Tout retirer</button>
                 </div>
 
@@ -82,7 +51,7 @@
                         <div class="range_limits" aria-hidden="true"><span>0%</span><span>50%</span></div>
                     </div>
                     <button id="process_button" class="button action_button" type="button">
-                        <span>Redimensionner le lot</span>
+                        <span>Redimensionner</span>
                         <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M5 12h14M13 6l6 6-6 6"></path>
                         </svg>
@@ -90,10 +59,7 @@
                 </div>
 
                 <div class="section_heading queue_heading">
-                    <div>
-                        <span class="section_index">02</span>
-                        <h2>Fichiers sélectionnés</h2>
-                    </div>
+                    <h2>Images</h2>
                     <span id="selection_summary" class="selection_summary"></span>
                 </div>
 
@@ -102,10 +68,7 @@
 
             <section id="results_section" class="results_section" hidden aria-labelledby="results_title">
                 <div class="section_heading">
-                    <div>
-                        <span class="section_index">03</span>
-                        <h2 id="results_title">Export</h2>
-                    </div>
+                    <h2 id="results_title">Export</h2>
                     <span id="result_summary" class="selection_summary"></span>
                 </div>
 
@@ -128,10 +91,6 @@
                 </div>
             </section>
         </main>
-
-        <footer>
-            <span>Traitement local · Export PNG · Structure des dossiers conservée</span>
-        </footer>
     </div>
 
     <script src="zip_archive.js"></script>

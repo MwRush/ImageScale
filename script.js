@@ -2,8 +2,6 @@ const messages = {
     ready_to_process: 'Prêt à traiter',
     download_zip: 'Télécharger le ZIP',
     creating_zip: 'Création du ZIP…',
-    enable_dark_theme: 'Activer le thème sombre',
-    enable_light_theme: 'Activer le thème clair',
     pending: 'En attente',
     reading: 'Analyse',
     processing: 'Traitement',
@@ -38,10 +36,8 @@ const maximum_canvas_dimension = 16384;
 const permanent_error_keys = new Set(['invalid_image']);
 
 const elements = {
-    theme_toggle: document.getElementById('theme_toggle'),
     drop_zone: document.getElementById('drop_zone'),
     file_input: document.getElementById('file_input'),
-    folder_input: document.getElementById('folder_input'),
     import_status: document.getElementById('import_status'),
     workspace_section: document.getElementById('workspace_section'),
     clear_button: document.getElementById('clear_button'),
@@ -67,23 +63,6 @@ let next_item_id = 1;
 let is_processing = false;
 let progress_label_key = 'ready_to_process';
 let progress_label_replacements = {};
-let current_theme = get_saved_value('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-
-function get_saved_value(key) {
-    try {
-        return localStorage.getItem(key);
-    } catch {
-        return null;
-    }
-}
-
-function save_value(key, value) {
-    try {
-        localStorage.setItem(key, value);
-    } catch {
-        return;
-    }
-}
 
 function format_message(key, replacements = {}) {
     let value = messages[key] || key;
@@ -93,25 +72,6 @@ function format_message(key, replacements = {}) {
     }
 
     return value;
-}
-
-function set_theme(theme, should_save = true) {
-    current_theme = theme === 'dark' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data_theme', current_theme);
-
-    if (should_save) {
-        save_value('theme', current_theme);
-    }
-
-    update_accessible_labels();
-}
-
-function update_accessible_labels() {
-    if (!elements.theme_toggle) {
-        return;
-    }
-
-    elements.theme_toggle.setAttribute('aria-label', format_message(current_theme === 'light' ? 'enable_dark_theme' : 'enable_light_theme'));
 }
 
 function format_bytes(bytes) {
@@ -417,7 +377,7 @@ function update_controls() {
     const controls_disabled = is_processing;
 
     elements.file_input.disabled = controls_disabled;
-    elements.folder_input.disabled = controls_disabled;
+    elements.drop_zone.setAttribute('aria-disabled', String(controls_disabled));
     elements.clear_button.disabled = controls_disabled;
     elements.scale_slider.disabled = controls_disabled;
     elements.loss_slider.disabled = controls_disabled;
@@ -490,7 +450,6 @@ function clear_selection() {
     selected_items = [];
     processed_entries = [];
     elements.file_input.value = '';
-    elements.folder_input.value = '';
     elements.workspace_section.hidden = true;
     elements.results_section.hidden = true;
     elements.progress_bar.value = 0;
@@ -809,17 +768,7 @@ async function collect_drop_candidates(data_transfer) {
 }
 
 function bind_events() {
-    elements.theme_toggle.addEventListener('click', () => {
-        set_theme(current_theme === 'light' ? 'dark' : 'light');
-    });
-
     elements.file_input.addEventListener('change', async (event) => {
-        const candidates = create_candidates_from_files(event.target.files || []);
-        event.target.value = '';
-        await add_candidates(candidates);
-    });
-
-    elements.folder_input.addEventListener('change', async (event) => {
         const candidates = create_candidates_from_files(event.target.files || []);
         event.target.value = '';
         await add_candidates(candidates);
@@ -839,10 +788,19 @@ function bind_events() {
     elements.process_button.addEventListener('click', process_batch);
     elements.download_zip_button.addEventListener('click', download_zip);
 
+    elements.drop_zone.addEventListener('click', () => {
+        if (!is_processing) {
+            elements.file_input.click();
+        }
+    });
+
     for (const event_name of ['dragenter', 'dragover']) {
         elements.drop_zone.addEventListener(event_name, (event) => {
             event.preventDefault();
-            elements.drop_zone.classList.add('dragging');
+
+            if (!is_processing) {
+                elements.drop_zone.classList.add('dragging');
+            }
         });
     }
 
@@ -855,13 +813,17 @@ function bind_events() {
     elements.drop_zone.addEventListener('drop', async (event) => {
         event.preventDefault();
         elements.drop_zone.classList.remove('dragging');
+
+        if (is_processing) {
+            return;
+        }
+
         const candidates = await collect_drop_candidates(event.dataTransfer);
         await add_candidates(candidates);
     });
 }
 
 function initialize() {
-    set_theme(current_theme, false);
     bind_events();
     update_interface();
 }

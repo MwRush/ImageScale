@@ -6,8 +6,8 @@ Accès : https://mwrush.github.io/Image-Scale/
 
 ## Fonctionnalités
 
-- Sélection simultanée de plusieurs images
-- Sélection et glisser-déposer de dossiers
+- Sélection simultanée de plusieurs images par clic
+- Glisser-déposer d’images ou de dossiers
 - Conservation des sous-dossiers dans l’archive de sortie
 - Facteur d’échelle global de ×1 à ×10
 - Agrandissement nearest-neighbor sans lissage
@@ -15,12 +15,12 @@ Accès : https://mwrush.github.io/Image-Scale/
 - Traitement séquentiel pour limiter l’utilisation de la mémoire
 - Export PNG individuel ou groupé dans une archive ZIP
 - Interface responsive entièrement en français
-- Thèmes clair et sombre persistants
+- Thème sombre unique avec la typographie Bricolage Grotesque
 - Traitement entièrement local, sans téléversement des fichiers
 
 ## Utilisation
 
-1. Sélectionner plusieurs images ou un dossier complet.
+1. Cliquer sur la zone d’import pour sélectionner plusieurs images, ou y déposer des images ou un dossier complet.
 2. Définir le facteur d’échelle et l’adoucissement communs au lot.
 3. Lancer le redimensionnement.
 4. Télécharger une image séparément ou récupérer toutes les sorties dans une archive ZIP.
