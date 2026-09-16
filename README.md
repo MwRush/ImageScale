@@ -16,7 +16,7 @@ Accès : https://mwrush.github.io/Image-Scale/
 - Traitement séquentiel pour limiter l’utilisation de la mémoire
 - Téléchargement individuel des fichiers préparés ou export groupé dans une archive ZIP
 - Interface adaptative entièrement en français
-- Thème sombre unique avec la typographie Bricolage Grotesque
+- Thème sombre harmonisé avec Image Notes, typographie Bricolage Grotesque embarquée et favicon SVG
 - Traitement entièrement local, sans téléversement des fichiers
 
 ## Utilisation
@@ -40,3 +40,5 @@ Si deux fichiers différents aboutissent exactement au même chemin, le second r
 ## Développement
 
 Le projet ne nécessite ni dépendance ni étape de compilation. Ouvrir `index.html` dans un navigateur moderne ou servir le dossier avec un serveur HTTP statique.
+
+Le dossier local est nommé `image_scale`, avec la même convention que `image_notes`. Les deux outils utilisent des noms de fichiers et d’identifiants en anglais séparés par des underscores. La police et sa licence SIL Open Font License se trouvent dans `fonts/` ; aucune requête externe n’est nécessaire.
