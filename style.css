@@ -95,13 +95,13 @@ h1 {
 
 .drop_zone {
     display: flex;
-    min-height: clamp(220px, 32vw, 300px);
+    min-height: clamp(260px, 32vw, 320px);
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    gap: 18px;
+    gap: 8px;
     width: 100%;
-    padding: 0;
+    padding: 32px 16px;
     border: 1px dashed var(--line_strong);
     border-radius: 18px;
     background: transparent;
@@ -131,6 +131,7 @@ h1 {
 .drop_icon {
     width: 42px;
     height: 42px;
+    margin-bottom: 12px;
     color: var(--ink_muted);
     transition: color 160ms ease, transform 160ms ease;
 }
@@ -138,7 +139,7 @@ h1 {
 .drop_zone:hover .drop_icon,
 .drop_zone:focus-visible .drop_icon,
 .drop_zone.dragging .drop_icon {
-    color: currentColor;
+    color: var(--accent);
     transform: rotate(90deg);
 }
 
@@ -146,6 +147,17 @@ h1 {
     font-size: clamp(1.35rem, 3vw, 1.75rem);
     font-weight: 480;
     letter-spacing: -0.035em;
+}
+
+.drop_hint,
+.format_hint {
+    color: var(--ink_muted);
+    font-size: 0.76rem;
+}
+
+.format_hint {
+    margin-top: 20px;
+    font-size: 0.66rem;
 }
 
 .workspace_section,
@@ -514,17 +526,12 @@ progress::-moz-progress-bar {
 
 @media (max-width: 560px) {
     .app_shell {
-        width: min(100% - 24px, 960px);
+        width: calc(100% - 28px);
         padding-top: 38px;
     }
 
     h1 {
         font-size: 3.35rem;
-    }
-
-    .drop_zone {
-        min-height: 210px;
-        border-radius: 14px;
     }
 
     .settings_grid {
